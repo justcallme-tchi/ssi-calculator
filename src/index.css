@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #050505;
+    color: #c8c8c8;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle CRT scanlines */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  ::selection { background: rgba(255,0,34,0.25); color: #fff; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-thumb { background: #7a0010; border-radius: 2px; }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type='number'] { -moz-appearance: textfield; }
+}
+
+@layer components {
+  .grade-input {
+    @apply w-full bg-ink border border-outline text-body font-mono text-sm px-3 py-2.5
+           transition-all duration-200 outline-none rounded-none;
+  }
+  .grade-input:focus {
+    @apply border-r;
+    box-shadow: 0 0 0 3px rgba(255,0,34,0.08);
+  }
+  .grade-input::placeholder { color: #2a2a2a; }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-xs tracking-wider uppercase;
+  }
+
+  .section-card {
+    @apply bg-card border border-outline overflow-hidden;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 font-mono text-xs tracking-widest uppercase
+           border border-outline text-sub hover:border-r hover:text-r hover:bg-r-muted
+           transition-all duration-200 cursor-pointer;
+  }
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+/* Glitch on the big title */
+@keyframes glitch-1 {
+  0%, 90%, 100% { clip-path: none; transform: none; }
+  91% { clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); transform: translateX(-3px); }
+  92% { clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); transform: translateX(3px); }
+  93% { clip-path: none; transform: none; }
+}
+
+.glitch {
+  position: relative;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+.glitch::before {
+  color: #ff0022;
+  animation: glitch-1 8s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  transform: translateX(-2px);
+  opacity: 0.7;
+}
+.glitch::after {
+  color: rgba(255,255,255,0.4);
+  animation: glitch-1 8s infinite reverse;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  transform: translateX(2px);
+  opacity: 0.5;
+}
+
+/* Score bar fill */
+@keyframes barFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.bar-fill {
+  transform-origin: left;
+  animation: barFill 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
