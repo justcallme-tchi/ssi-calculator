@@ -1,5 +1,8 @@
 # SSI Grade Calculator ✦ Calculateur de notes Master SSI
 
+**[🌐 Essaie le calculateur en live !](https://ssi-calculator.vercel.app/)**  
+Calcule tes notes du Master SSI sans prise de tête 🧮✨
+
 Salut ! C'est ton petit calculateur de notes pour le **Master SSI – Sécurité des Systèmes Informatiques** à l'ESST 🛡️💻  
 J'ai codé ça avec amour pour nous simplifier la vie pendant les partiels 😅
 
